@@ -1,7 +1,11 @@
+const os = require('os');
+
 class MarkDownParser {
   #preformattedText;
+  #separator;
   constructor() {
     this.#preformattedText = [];
+    this.#separator = `${os.EOL}${os.EOL}`;
   }
 
   replacePreformattedText(text) {
@@ -26,7 +30,10 @@ class MarkDownParser {
   }
 
   #setParagraphs(text) {
-    return text.split('\n\n').reduce((acc, cur) => `${acc}\n<p>${cur}</p>`, '');
+    return text
+    .split(this.#separator)
+    .reduce((acc, cur) => `${acc}\n<p>${cur}</p>`, '')
+    .trim();
   }
 
   setPreformattedText(text) {
