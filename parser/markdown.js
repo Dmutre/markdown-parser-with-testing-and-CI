@@ -1,10 +1,9 @@
 const cases = require('../utils/cases');
-const markups = require('../utils/markups');
 const MarkDownParser = require('./markdown.parser');
 const MarkDownValidator = require('./markdown.validator');
 
 const markDownParser = new MarkDownParser();
-const markDownValidator = new MarkDownValidator(markups)
+const markDownValidator = new MarkDownValidator()
 
 class MarkDown {
   #parser;
@@ -18,11 +17,11 @@ class MarkDown {
   }
 
   parse (data) {
-    const formattedText = this.#parser.replacePreformattedText(data);
-    this.#validator.checkNesting(formattedText, this.#cases);
+    const formattedText = this.#parser.removePreformatted(data);
+    this.#validator.validateNesting(formattedText, this.#cases);
     const convertedMarkup = this.#parser.convert(formattedText, cases);
-    this.#validator.checkUnpairedMarkup(convertedMarkup);
-    return this.#parser.setPreformattedText(convertedMarkup);
+    this.#validator.validateUnpaired(convertedMarkup);
+    return this.#parser.returnPreformatted(convertedMarkup);
   }
 
 }

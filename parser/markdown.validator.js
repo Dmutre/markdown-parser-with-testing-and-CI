@@ -1,37 +1,38 @@
 const ERROR_MESSAGE = require('../utils/consts/error.message');
+const { markups } = require('../utils/markups');
 
 class MarkDownValidator {
   #markups;
 
-  constructor(markups) {
+  constructor() {
     this.#markups = markups;
   }
 
-  checkNesting(text, cases) {
-    const parts = this.#getParts(text, cases);
+  validateNesting(text, cases) {
+    const parts = this.#extractSelected(text, cases);
     for (const part of parts) {
-      cases.map(({pattern}) => {
-        const matches = part.match(pattern);
-        if (matches) throw new Error(ERROR_MESSAGE.NESTED);
-      });
+      const nested = cases.some(({ mark }) => part.match(mark));
+      if (nested) {
+        throw new Error(ERROR_MESSAGE.NESTED);
+      }
     }
   }
 
-  #getParts(text, cases) {
+  #extractSelected(text, cases) {
     const parts = [];
-    for (const {pattern} of cases) {
-      const matches = text.match(pattern);
+    for (const { mark } of cases) {
+      const matches = text.match(mark);
       if (matches) {
-        parts.push(...matches.map(match => match.replace(pattern, '$1')));
+        parts.push(...matches.map(match => match.replace(mark, '$1')));
       }
     }
     return parts;
   }
 
-  checkUnpairedMarkup(text) {
-    for (const part of this.#markups) {
-      const matches = text.match(part);
-      if (matches) throw new Error(ERROR_MESSAGE.UNPAIRED);
+  validateUnpaired(text) {
+    const unpaired = this.#markups.some(markup => text.match(markup));
+    if (unpaired) {
+      throw new Error(ERROR_MESSAGE.UNPAIRED);
     }
   }
 }

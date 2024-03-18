@@ -1,15 +1,26 @@
-const os = require('os');
+const { preformattedSelector, osEnters } = require('../utils/markups')
 
 class MarkDownParser {
+  #preformattedSelector;
   #preformattedText;
   #separator;
+
   constructor() {
     this.#preformattedText = [];
-    this.#separator = `${os.EOL}${os.EOL}`;
+    this.#separator = osEnters;
+    this.#preformattedSelector = preformattedSelector;
   }
 
-  replacePreformattedText(text) {
-    const preformattedText = text.match(/```([\s\S]*?)```/g);
+  convert(text, cases) {
+    let converted = text;
+    for (const { mark, target } of cases) {
+      converted = converted.replace(new RegExp(mark, 'g'), target);
+    }
+    return this.#wrapParagraphs(converted);
+  }
+
+  removePreformatted(text) {
+    const preformattedText = text.match(this.#preformattedSelector);
     if (preformattedText) {
       this.#preformattedText.push(...preformattedText);
       return preformattedText.reduce(
@@ -20,27 +31,20 @@ class MarkDownParser {
       return text;
     }
   }
-  
 
-  convert(text, cases) {
-    const converted =  cases.reduce((acc, cur) => {
-      return acc.replace(cur.pattern, cur.replacement);
-    }, text);
-    return this.#setParagraphs(converted);
-  }
-
-  #setParagraphs(text) {
-    return text
-    .split(this.#separator)
-    .reduce((acc, cur) => `${acc}\n<p>${cur}</p>`, '')
-    .trim();
-  }
-
-  setPreformattedText(text) {
+  returnPreformatted(text) {
     return this.#preformattedText.reduce((acc, cur, index) => {
       const html = `<pre>${cur.replace(/```/g, '')}</pre>`;
       return acc.replace(`PRE{{${index}}}PRE`, html);
     }, text);
+  }
+
+  #wrapParagraphs(text) {
+    return text
+      .split(this.#separator)
+      .map(cur => `<p>${cur}</p>`)
+      .join('\n')
+      .trim();
   }
 }
 

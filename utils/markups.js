@@ -1,4 +1,6 @@
-module.exports = markups = [
+const os = require('os');
+
+const markups = [
   /(?<=[ ,.:;\n\t]|^)_(?=\S)/g,
   /(?<=\S)_(?=[ ,.:;\n\t]|$)/g,
   /(?<=[ ,.:;\n\t]|^)`(?=\S)/g,
@@ -6,3 +8,14 @@ module.exports = markups = [
   /(?<=\S)\*\*(?=[ ,.:;\n\t]|$)/g,
   /(?=\S)`(?=[ ,.:;\n\t]|$)/g,
 ];
+
+const preformattedSelector = /```([\s\S]*?)```/g
+
+const osEnters = os.EOL + os.EOL;
+
+module.exports = {
+  markups,
+  preformattedSelector,
+  osEnters,
+}
+
