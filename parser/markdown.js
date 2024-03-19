@@ -1,4 +1,5 @@
 const { markdownCases, escapeCases } = require('../utils/cases');
+const { markups } = require('../utils/tags');
 const MarkDownEscapeParser = require('./markdown-to-escape.parser');
 const MarkDownParser = require('./markdown.parser');
 const MarkDownValidator = require('./markdown.validator');
@@ -11,6 +12,7 @@ class MarkDown {
   #parser;
   #validator;
   #cases;
+  #tags;
 
   constructor(format) {
     if(format === 'escape') {
@@ -18,8 +20,9 @@ class MarkDown {
       this.#parser = markDownToEscapeParser;
     } else {
       this.#cases = markdownCases;
-      this.#parser = markDownToEscapeParser;
+      this.#parser = markDownParser;
     }
+    this.#tags = markups;
     this.#validator = markDownValidator;
   }
 
@@ -27,7 +30,7 @@ class MarkDown {
     const formattedText = this.#parser.removePreformatted(data);
     this.#validator.validateNesting(formattedText, this.#cases);
     const convertedMarkup = this.#parser.convert(formattedText, this.#cases);
-    this.#validator.validateUnpaired(convertedMarkup);
+    this.#validator.validateUnpaired(convertedMarkup, this.#tags);
     return this.#parser.returnPreformatted(convertedMarkup);
   }
 }
