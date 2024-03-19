@@ -1,4 +1,4 @@
-const { preformattedSelector, osEnters } = require('../utils/tags')
+const { preformattedSelector, osEnters } = require('../utils/markups')
 
 class MarkDownEscapeParser {
   #preformattedSelector;
