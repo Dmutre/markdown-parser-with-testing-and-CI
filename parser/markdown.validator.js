@@ -1,12 +1,6 @@
 const ERROR_MESSAGE = require('../utils/consts/error.message');
-const { markups } = require('../utils/markups');
 
 class MarkDownValidator {
-  #markups;
-
-  constructor() {
-    this.#markups = markups;
-  }
 
   validateNesting(text, cases) {
     const parts = this.#extractSelected(text, cases);
@@ -29,8 +23,8 @@ class MarkDownValidator {
     return parts;
   }
 
-  validateUnpaired(text) {
-    const unpaired = this.#markups.some(markup => text.match(markup));
+  validateUnpaired(text, tags) {
+    const unpaired = tags.some(markup => text.match(markup));
     if (unpaired) {
       throw new Error(ERROR_MESSAGE.UNPAIRED);
     }
