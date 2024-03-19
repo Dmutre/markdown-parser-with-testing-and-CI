@@ -1,13 +1,11 @@
 const { preformattedSelector, osEnters } = require('../utils/markups')
 
-class MarkDownParser {
+class MarkDownEscapeParser {
   #preformattedSelector;
   #preformattedText;
-  #separator;
 
   constructor() {
     this.#preformattedText = [];
-    this.#separator = osEnters;
     this.#preformattedSelector = preformattedSelector;
   }
 
@@ -16,7 +14,7 @@ class MarkDownParser {
     for (const { print, target } of cases) {
       converted = converted.replace(new RegExp(print, 'g'), target);
     }
-    return this.#wrapParagraphs(converted);
+    return converted;
   }
 
   removePreformatted(text) {
@@ -34,18 +32,10 @@ class MarkDownParser {
 
   returnPreformatted(text) {
     return this.#preformattedText.reduce((acc, cur, index) => {
-      const html = `<pre>${cur.replace(/```/g, '')}</pre>`;
+      const html = `\x1b[7m${cur.replace(/```/g, '')}\x1b[27m`;
       return acc.replace(`PRE{{${index}}}PRE`, html);
     }, text);
   }
-
-  #wrapParagraphs(text) {
-    return text
-      .split(this.#separator)
-      .map(cur => `<p>${cur}</p>`)
-      .join('\n')
-      .trim();
-  }
 }
 
-module.exports = MarkDownParser;
+module.exports = MarkDownEscapeParser;

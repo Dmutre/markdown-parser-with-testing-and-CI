@@ -1,5 +1,16 @@
 {
   "dependencies": {
-    "eslint": "^8.57.0"
-  }
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0"
+  },
+  "name": "markdown-parser-with-testing-and-ci",
+  "description": "This console app convert markdown to html. Can be called in console and take parameters, described below. App supports only **bold**, _italic_, `monospaced` and ```**preformatted markdown**```. Also it write a paragraphs.",
+  "version": "1.0.0",
+  "main": "./app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Dmutre",
+  "license": "MIT"
 }

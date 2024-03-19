@@ -11,7 +11,7 @@ class MarkDownValidator {
   validateNesting(text, cases) {
     const parts = this.#extractSelected(text, cases);
     for (const part of parts) {
-      const nested = cases.some(({ mark }) => part.match(mark));
+      const nested = cases.some(({ print }) => part.match(print));
       if (nested) {
         throw new Error(ERROR_MESSAGE.NESTED);
       }
