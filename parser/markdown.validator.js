@@ -14,10 +14,10 @@ class MarkDownValidator {
 
   #extractSelected(text, cases) {
     const parts = [];
-    for (const { mark } of cases) {
-      const matches = text.match(mark);
+    for (const { print } of cases) {
+      const matches = text.match(print);
       if (matches) {
-        parts.push(...matches.map(match => match.replace(mark, '$1')));
+        parts.push(...matches.map(match => match.replace(print, '$1')));
       }
     }
     return parts;
