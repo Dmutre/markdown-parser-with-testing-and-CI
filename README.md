@@ -40,7 +40,7 @@ node ./app.js ./test.md --out ./output.html
 # Revert commit
 [Reverted commit](https://github.com/Dmutre/markdown-parser-with-testing-and-CI/commit/b39622554e4ac7819ff277585ba2875e9211db77)
 # Commit with failed test
-[Failed testing]()
+[Failed testing](https://github.com/Dmutre/markdown-parser-with-testing-and-CI/commit/62996f8d0a9e22a46c383e1dd2a7a4e224ea7b6f)
 
 # Conclusion
 Testing is essential for ensuring software reliability and quality. While it may require extra time initially, it ultimately saves time by catching bugs early and preventing issues in production. Testing boosts developer confidence, speeds up development through early bug detection, and serves as documentation for the codebase. In short, while testing adds overhead, its benefits in terms of improved software quality and accelerated development outweigh the initial investment.
