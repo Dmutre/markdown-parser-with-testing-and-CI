@@ -39,7 +39,12 @@ function main() {
   const markDown = new MarkDown(format);
   const result = markDown.parse(dataFromInputFile);
   if(outputFilePath) outPutResult(result);
-  else console.log(result);
+  else {
+    if(format === null) {
+      const markDownEscape = new MarkDown('escape');
+      console.log(markDownEscape.parse(dataFromInputFile));
+    } else console.log(result);
+  }
 }
 
 tryCatchFunction(main);

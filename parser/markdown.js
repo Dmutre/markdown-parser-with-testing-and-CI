@@ -30,7 +30,7 @@ class MarkDown {
     const formattedText = this.#parser.removePreformatted(data);
     this.#validator.validateNesting(formattedText, this.#cases);
     const converted = this.#parser.convert(formattedText, this.#cases);
-    this.#validator.validateUnpaired(converted, this.#tags);
+    //this.#validator.validateUnpaired(converted, this.#tags);
     return this.#parser.returnPreformatted(converted);
   }
 }
