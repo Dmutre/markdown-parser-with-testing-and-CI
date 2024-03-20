@@ -3,18 +3,21 @@ const { markups } = require('../utils/tags');
 const MarkDownEscapeParser = require('./markdown-to-escape.parser');
 const MarkDownParser = require('./markdown.parser');
 const MarkDownValidator = require('./markdown.validator');
+const fs = require('fs')
 
 const markDownParser = new MarkDownParser();
 const markDownToEscapeParser = new MarkDownEscapeParser();
 const markDownValidator = new MarkDownValidator();
 
 class MarkDown {
+  #format;
   #parser;
   #validator;
   #cases;
   #tags;
 
   constructor(format) {
+    this.#format = format;
     if(format === 'escape') {
       this.#cases = escapeCases;
       this.#parser = markDownToEscapeParser;
